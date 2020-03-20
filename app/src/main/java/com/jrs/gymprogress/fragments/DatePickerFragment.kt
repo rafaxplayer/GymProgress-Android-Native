@@ -25,7 +25,7 @@ private const val ARG_DATE = "date"
 class DatePickerFragment : DialogFragment() {
     // TODO: Rename and change types of parameters
     private var paramDate: String? = null
-    private var curDate: String? = ""
+    private var curDate: String? = null
     private var dateListener: DatePickerChangeListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +52,9 @@ class DatePickerFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         calendarDatePicker.setOnDateChangeListener { view, year, month, dayOfMonth ->
             curDate = Utils.formatPartialsDate(year, month + 1, dayOfMonth)
             curDate?.let { dateListener?.setOnDateChange(it) }
-
         }
 
     }
@@ -67,7 +65,6 @@ class DatePickerFragment : DialogFragment() {
             DatePickerFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_DATE, date)
-
                 }
             }
     }

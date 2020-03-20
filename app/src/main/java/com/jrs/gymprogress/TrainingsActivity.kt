@@ -184,7 +184,7 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
             textDate.setBackground(
                 ContextCompat.getDrawable(
                     this,
-                    R.drawable.button_series_selector
+                    R.drawable.item_popup_selector
                 )
             )
         } else {
@@ -264,12 +264,16 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
     }
 
     override fun setOnDateChange(date: String) {
-        date.let { textDate.text = it }
+        date.let {
+            textDate.text = it
+            this.date=it
+        }
         val prev: Fragment? = supportFragmentManager.findFragmentByTag(Utils.DIALOG_DATE_PICKER)
         prev.let {
             it as DialogFragment
             it.dismiss()
         }
+
     }
 
 

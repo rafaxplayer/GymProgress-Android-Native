@@ -1,0 +1,24 @@
+<resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">Gym Progress</string>
+    <string name="new_exercise">Nuevo ejercicio</string>
+    <string name="new_muscle">Nuevo Grupo Muscular</string>
+    <string name="save">Guardar</string>
+    <string name="today">Hoy</string>
+    <string name="comment">Comentario</string>
+    <string name="add_serie">Añadir Serie</string>
+    <string name="kilos">Kilos</string>
+    <string name="repes">Repeticiones</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new">Añadir Nuevo</string>
+    <string name="settings">Settings</string>
+    <string name="edit_group">Editar Grupo Muscular</string>
+    <string name="new_group">Nuevo Grupo Muscular</string>
+    <string name="edit_exercise">Editar Ejercicio</string>
+    <string name="exercises">Ejercicios</string>
+    <string name="edit_training">Editar Entreno</string>
+    <string name="new_training">Nuevo Entreno</string>
+    <string name="comments">Commentarios</string>
+</resources>
