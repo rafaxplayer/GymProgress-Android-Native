@@ -83,7 +83,7 @@ class SeriesAdapter : RecyclerView.Adapter<SeriesAdapter.ViewHolder> {
     }
 
     fun clearData() {
-        list = arrayListOf();
+        list?.clear();
         notifyDataSetChanged()
     }
 

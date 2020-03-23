@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".GymProgressActivity">
+        <activity android:name=".CompareDatesActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".GymProgressActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

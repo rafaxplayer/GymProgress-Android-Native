@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jrs.gymprogress.adapters.SeriesAdapter
 import com.jrs.gymprogress.database.DBHelper
@@ -47,7 +46,7 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
         setSupportActionBar(toolbar)
 
         db = SqliteWrapper(applicationContext)
-        setSpinnerData(DBHelper.TABLE_MUSCLE_GROUPS, 0)
+
 
         spinnerGroups.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -57,7 +56,7 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
                 id: Long
             ) {
 
-                this@TrainingsActivity.muscle_id = listMuscles!![position].id
+                muscle_id = listMuscles!![position].id
                 setSpinnerData(DBHelper.TABLE_EXERCISES, muscle_id!!)
             }
 
@@ -73,7 +72,7 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
                 position: Int,
                 id: Long
             ) {
-                this@TrainingsActivity.exercise_id = listExercises!![position].id
+                exercise_id = listExercises!![position].id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -88,8 +87,14 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
         textDate.text = date
         listSeriesRecycler.layoutManager = LinearLayoutManager(this)
         listSeriesRecycler.adapter = SeriesAdapter(listSeries)
-        setData(this.id!!)
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setSpinnerData(DBHelper.TABLE_MUSCLE_GROUPS, muscle_id!!)
+        setData(this.id!!)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -153,14 +158,16 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
         }
     }
 
-    fun showDatePicker() {
+    private fun showDatePicker() {
         val transaction = supportFragmentManager.beginTransaction()
         val dateDialog = date?.let { DatePickerFragment.newInstance(it) }
         dateDialog?.show(transaction, Utils.DIALOG_DATE_PICKER)
     }
 
     private fun setData(entreno_id: Int) {
+
         if (entreno_id > 0) {
+
             var trn = db?.getDataWithId(DBHelper.TABLE_TRAININGS, entreno_id) as Training
 
             this.date = trn.date
@@ -172,7 +179,6 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
             Utils.runAfterOnTime(800) {
                 val pos_exer: Int? =
                     Utils.getPositionWithId(listExercises!!, trn.exercise_id)
-                println("Position : $pos_exer")
                 spinnerExercises.setSelection(pos_exer!!)
             }
 
@@ -194,11 +200,11 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
 
     private fun clearData() {
         id = 0
-        date = Utils.convertTimeToISODate(Calendar.getInstance().timeInMillis)
         editComment.setText("")
         series = "";
-        listSeries = arrayListOf()
-        (listSeriesRecycler.adapter as SeriesAdapter).clearData()
+        listSeries.clear()
+        listSeriesRecycler.adapter!!.notifyDataSetChanged()
+
     }
 
     fun newMuscleGroup(view: View) {
@@ -216,7 +222,6 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
     fun saveEntreno(view: View) {
 
         var entreno = Training()
-
         entreno.date = date!!
 
         if (muscle_id!! > 0) {
@@ -246,34 +251,48 @@ class TrainingsActivity : AppCompatActivity(), SaveDataListener, DatePickerChang
             if (ret) {
                 Toast.makeText(this, "Ok entreno actualizado!!!", Toast.LENGTH_LONG).show()
             }
-
         } else {
             val ret = db!!.insertData(entreno)
             if (ret > 0) {
                 Toast.makeText(this, "Ok entreno guardado!!!", Toast.LENGTH_LONG).show()
                 clearData()
-
             }
         }
 
     }
 
     override fun setOnSaveData(table: String) {
-        setSpinnerData(table, muscle_id!!)
+        when (table) {
+            DBHelper.TABLE_MUSCLE_GROUPS -> {
+                val mscFragment: NewMuscleGroupFragment? =
+                    supportFragmentManager.findFragmentByTag(Utils.DIALOG_NEW_EDIT_MUSCLE_GROUP) as NewMuscleGroupFragment
+                mscFragment?.let {
+                    it.dismiss()
+                }
 
+            }
+            DBHelper.TABLE_EXERCISES -> {
+                val exeFragment: NewExerciseFragment? =
+                    supportFragmentManager.findFragmentByTag(Utils.DIALOG_NEW_EDIT_EXERCISE) as NewExerciseFragment
+                exeFragment?.let {
+                    it.dismiss()
+                }
+            }
+        }
+        setSpinnerData(table, muscle_id!!)
     }
+
 
     override fun setOnDateChange(date: String) {
         date.let {
             textDate.text = it
-            this.date=it
+            this.date = it
         }
-        val prev: Fragment? = supportFragmentManager.findFragmentByTag(Utils.DIALOG_DATE_PICKER)
-        prev.let {
-            it as DialogFragment
+        val prev: DialogFragment? =
+            supportFragmentManager.findFragmentByTag(Utils.DIALOG_DATE_PICKER) as DialogFragment
+        prev?.let {
             it.dismiss()
         }
-
     }
 
 

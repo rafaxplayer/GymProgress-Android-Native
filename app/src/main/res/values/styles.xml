@@ -10,6 +10,7 @@
         <item name="android:textColor">@color/textColor</item>
         <item name="windowNoTitle">true</item>
         <item name="android:itemBackground">@drawable/item_popup_selector</item>
+        <item name="android:alertDialogTheme">@style/AppTheme.Dialogs</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
@@ -17,7 +18,16 @@
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.Dialogs" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColorPrimary">@color/textColorDark</item>
+        <item name="android:background">@color/colorBackDark</item>
+    </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 </resources>

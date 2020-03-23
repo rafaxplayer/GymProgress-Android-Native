@@ -37,7 +37,7 @@
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
-                android:text="Nuevo Entreno"
+                android:text="@string/new_training"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
 
@@ -52,19 +52,18 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
                 android:padding="8dp"
-                android:text="Entreno Date" />
+                android:text="@string/entreno_date" />
 
-            <EditText
-                android:id="@+id/editText"
+            <View
+                android:id="@+id/view2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
-                android:ems="10"
-                android:inputType="date" />
+                android:layout_height="0.5dp"
+                android:layout_gravity="center|center_vertical"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="40dp"
+                android:background="@color/textColorDark" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -75,7 +74,7 @@
                 android:layout_marginTop="44dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
-                android:text="Grupo Muscular" />
+                android:text="@string/muscle_group" />
 
             <LinearLayout
                 android:id="@+id/linearLayout3"
@@ -86,6 +85,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
+                android:background="@color/colorPrimaryDark"
                 android:orientation="horizontal">
 
                 <Spinner
@@ -118,7 +118,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
-                android:text="Ejercicios" />
+                android:text="@string/exercises" />
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
@@ -129,6 +129,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
+                android:background="@color/colorPrimaryDark"
                 android:orientation="horizontal">
 
                 <Spinner

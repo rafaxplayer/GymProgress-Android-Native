@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
-            android:text="TextView"
+            android:text="@string/exercises"
             android:textColor="@color/textColor"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -30,44 +30,48 @@
             android:id="@+id/textDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:padding="8dp"
-            android:text="TextView"
-            android:textColor="@color/textColorDark" />
+            android:text="@string/entreno_date"
+            android:textColor="@color/textColorDark"
+            android:textSize="12sp" />
 
-        <LinearLayout
+        <TableLayout
+            android:id="@+id/tableSeries"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_weight="1"
-                android:padding="8dp"
-                android:text="Kilos"
-                android:textSize="12sp"
-                android:textStyle="italic" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:layout_weight="1"
-                android:padding="8dp"
-                android:text="Repes"
-                android:textSize="12sp" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="@string/kilos"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#433F3F" />
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="@string/repes"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+            </TableRow>
+
+        </TableLayout>
 
         <TextView
             android:id="@+id/textView8"
@@ -75,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="8dp"
-            android:text="Commentarios"
+            android:text="@string/comments"
             android:textSize="12sp"
             android:textStyle="italic" />
 
@@ -93,10 +97,11 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="50dp"
             android:padding="8dp"
-            android:text="Comment"
+            android:text="@string/comment"
             android:textColor="@color/textColorDark" />
 
         <LinearLayout
+            android:id="@+id/cardButtons"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start|end"

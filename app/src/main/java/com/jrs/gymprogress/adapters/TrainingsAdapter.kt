@@ -9,14 +9,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.recyclerview.widget.RecyclerView
-import com.jrs.gymprogress.TrainingsActivity
-import com.jrs.gymprogress.GymProgressActivity
-import com.jrs.gymprogress.R
-import com.jrs.gymprogress.Utils
+import com.jrs.gymprogress.*
 import com.jrs.gymprogress.database.DBHelper
 import com.jrs.gymprogress.database.SqliteWrapper
 import com.jrs.gymprogress.database.models.Training
-import com.jrs.gymprogress.fragments.CompareTrainingsFragment
+
 import kotlinx.android.synthetic.main.list_entrenos_card.view.*
 
 class TrainingsAdapter(var context:Context, private val list: ArrayList<Training>, val db:SqliteWrapper) :
@@ -38,9 +35,10 @@ class TrainingsAdapter(var context:Context, private val list: ArrayList<Training
     }
 
     fun deleteEntreno(position:Int){
-        list.removeAt(position)
+
         var ret=db.deleteDataWithId(DBHelper.TABLE_TRAININGS,list[position].id)
         if(ret){
+            list.removeAt(position)
             Toast.makeText(context,"Ok, Entreno Eliminado!!!",Toast.LENGTH_LONG).show()
         }
         notifyDataSetChanged()
@@ -50,29 +48,42 @@ class TrainingsAdapter(var context:Context, private val list: ArrayList<Training
         View.OnClickListener {
 
         fun bindItems(item: Training) {
+
             itemView.textEntrenoName.text = item.exercise_name
             itemView.textDate.text = Utils.reformatDate(item.date)
             itemView.textComment.text = item.comment
+            var table = itemView.tableSeries
+            var series = Utils.seriesToarrayList(item.series)
+            series.let {
+                Utils.setSeriesToTableView(context, table, it!!)
+            }
             itemView.btnEditEntreno.setOnClickListener(this)
             itemView.btnDeleteEntreno.setOnClickListener(this)
             itemView.btnCompareEntreno.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
+            var training = list[layoutPosition]
             when (v!!.id) {
                 R.id.btnDeleteEntreno -> {
-                    deleteEntreno(layoutPosition)
+                    Utils.dialog(
+                        context as AppCompatActivity,
+                        "Eliminar",
+                        "¿Seguro?",
+                        { deleteEntreno(layoutPosition) },
+                        {}).show()
                 }
                 R.id.btnEditEntreno -> {
                     val intent = Intent(v.context, TrainingsActivity::class.java)
-                    intent.putExtra("date", list[layoutPosition].date)
-                    intent.putExtra("entreno_id",list[layoutPosition].id)
+                    intent.putExtra("date", training.date)
+                    intent.putExtra("entreno_id", training.id)
                     (v.context as GymProgressActivity).startActivity(intent)
                 }
                 R.id.btnCompareEntreno -> {
-                    val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                    val newExerciseDialog = CompareTrainingsFragment.newInstance(list[layoutPosition].id,list[layoutPosition].exercise_id)
-                    newExerciseDialog.show(transaction, Utils.DIALOG_COMPARE_TRAINIGS)
+                    val intent = Intent(context, CompareDatesActivity::class.java)
+                    intent.putExtra("training_id", training.id)
+                    intent.putExtra("exercise_id", training.exercise_id)
+                    (context as AppCompatActivity).startActivity(intent)
 
                 }
             }

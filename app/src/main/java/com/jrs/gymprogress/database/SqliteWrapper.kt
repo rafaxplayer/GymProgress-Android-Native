@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase
 import com.jrs.gymprogress.database.models.Exercise
 import com.jrs.gymprogress.database.models.MuscleGroup
 import com.jrs.gymprogress.database.models.Training
-import kotlin.Any as Any
 
 
 class SqliteWrapper(val context: Context) {
@@ -59,7 +58,7 @@ class SqliteWrapper(val context: Context) {
                     cursor = db!!.rawQuery(
                         "SELECT t.id, t.date, t.muscle_group_id, t.exercise_id, t.comment, t.series, e.name AS exercise_name FROM ${DBHelper.TABLE_TRAININGS} AS t " +
                                 "LEFT JOIN ${DBHelper.TABLE_EXERCISES} AS e ON e.id = t.exercise_id " +
-                                "WHERE $column = '$value' ORDER BY ${DBHelper.DATE}",
+                                "WHERE $column = '$value' ORDER BY ${DBHelper.DATE} DESC",
                         null
                     )
 
@@ -227,19 +226,20 @@ class SqliteWrapper(val context: Context) {
 
     }
 
-    fun getDataWithId(table: String, id: Int): Any {
+    fun getDataWithId(table: String, id: Int): Any? {
         val db: SQLiteDatabase? = dbHelper.readableDatabase
         var cursor: Cursor? = null;
         try {
             when (table) {
                 DBHelper.TABLE_TRAININGS -> {
+
                     cursor = db!!.rawQuery(
                         "SELECT t.id, t.date, t.muscle_group_id, t.exercise_id, t.comment, t.series, e.name AS exercise_name FROM ${DBHelper.TABLE_TRAININGS} AS t " +
                                 "LEFT JOIN ${DBHelper.TABLE_EXERCISES} AS e ON e.id = t.exercise_id " +
-                                "WHERE t.${DBHelper.ID} = $id ORDER BY t.${DBHelper.DATE}",
+                                "WHERE t.${DBHelper.ID} = '$id' ORDER BY t.${DBHelper.DATE}",
                         null
                     )
-
+                    print(cursor.count)
                     if (cursor.moveToFirst()) {
                         do {
                             var trn = Training()
@@ -262,7 +262,7 @@ class SqliteWrapper(val context: Context) {
                 }
                 DBHelper.TABLE_EXERCISES -> {
                     cursor = db!!.rawQuery(
-                        "SELECT * FROM ${DBHelper.TABLE_EXERCISES} WHERE ${DBHelper.ID} = $id",
+                        "SELECT * FROM ${DBHelper.TABLE_EXERCISES} WHERE ${DBHelper.ID} = '$id'",
                         null
                     )
 
@@ -281,7 +281,7 @@ class SqliteWrapper(val context: Context) {
                 }
                 DBHelper.TABLE_MUSCLE_GROUPS -> {
                     cursor = db!!.rawQuery(
-                        "SELECT * FROM ${DBHelper.TABLE_MUSCLE_GROUPS} WHERE ${DBHelper.ID} = $id",
+                        "SELECT * FROM ${DBHelper.TABLE_MUSCLE_GROUPS} WHERE ${DBHelper.ID} = '$id'",
                         null
                     )
 
@@ -306,7 +306,7 @@ class SqliteWrapper(val context: Context) {
             cursor?.close()
             if (db!!.isOpen) db.close()
         }
-        return 0
+        return null
     }
 
     fun insertData(ob: Any): Long {

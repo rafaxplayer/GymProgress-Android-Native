@@ -21,4 +21,6 @@
     <string name="edit_training">Editar Entreno</string>
     <string name="new_training">Nuevo Entreno</string>
     <string name="comments">Commentarios</string>
+    <string name="entreno_date">Entreno Date</string>
+    <string name="muscle_group">Grupo Muscular</string>
 </resources>
